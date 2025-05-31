@@ -41,3 +41,97 @@ _(Replace with actual diagram URL or local image)_
 - Created EFS and mounted it on EC2 demo instance at `/var/www/html`
 - Modified `/etc/fstab` to ensure persistence after reboot:
 - fs-<id>.efs.<region>.amazonaws.com:/ /var/www/html efs defaults,_netdev 0 0
+
+
+
+---
+
+## ⚙️ EC2 Setup
+
+- Launched a demo EC2 instance in Public Subnet
+- Installed Apache (`httpd`) and placed a sample `index.html`
+- Mounted EFS to `/var/www/html`
+- Created **AMI** from this instance for ASG launch template
+
+---
+
+## 🧠 User Data Script
+
+- A simple web app running on **port 8080** to:
+- Display instance metadata
+- Simulate CPU load for auto scaling tests
+- Only accessible from `MY_IP/32`
+
+---
+
+## 🚀 Launch Template & ASG Configuration
+
+- Used custom AMI to create **Launch Template**
+- ASG:
+- Desired Capacity: 2
+- Min: 2, Max: 5
+- Instance types: `t2.micro` (manually selected)
+- Mixed purchase: 1 On-Demand, remaining Spot for cost savings
+- Subnets: Both private subnets
+- Scaling Policy: Target Tracking @ 65% average CPU
+- Registered with **two Target Groups** (80 & 8080)
+
+---
+
+## 🌐 Load Balancer
+
+- **Application Load Balancer** deployed in Public Subnets
+- Two listeners:
+- Port 80 → Web TG
+- Port 8080 → Test TG
+- DNS name used to access the application
+
+---
+
+## 🔒 Security & Cost Optimization Summary
+
+| Feature           | Implementation                                                                 |
+|-------------------|----------------------------------------------------------------------------------|
+| High Availability | Multi-AZ setup, ASG across two private subnets                                 |
+| Cost Optimization | Spot instances with 1 base On-Demand                                            |
+| Central Storage   | Amazon EFS mounted on all web servers                                           |
+| Controlled Access | SGs configured with principle of least privilege                                |
+| Load Testing      | User data app for CPU spike → triggers ASG scaling                              |
+
+---
+
+## 🔍 How to Test
+
+1. Access the app using ALB DNS name on:
+ - Port 80: Regular site
+ - Port 8080: Load-testing app (only from your IP)
+2. Simulate high CPU load via test app
+3. ASG automatically launches new instances (up to 5) as CPU > 65%
+4. Monitor instances in ASG and targets in ALB
+
+---
+
+## 🧠 Learnings
+
+- Real-world infra setup with HA, auto scaling, security, and cost-control
+- Hands-on with user data scripts, AMI management, EFS, ASG configs
+- Demonstrated how a web app can be deployed in a secure private subnet using ALB
+
+---
+
+## 📎 To-Do / Future Enhancements
+
+- Add Route53
+- Add Bastion Host for better SSH management
+- CloudWatch log integration for metrics and alerts
+
+---
+
+## 👨‍💻 Author
+
+**Rakshit**  
+Feel free to connect on [LinkedIn](https://www.linkedin.com) and drop feedback or questions.
+
+---
+
+
