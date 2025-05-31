@@ -14,7 +14,7 @@ This project demonstrates a **highly available**, **secure**, and **cost-efficie
   - Private Subnet 1B: `192.168.0.192/26`
 - **Availability Zones:** Multi-AZ setup for HA
 
-![Uploading ChatGPT Image May 31, 2025, 10_05_08 PM.png…]()
+![ChatGPT Image May 31, 2025, 10_05_08 PM](https://github.com/user-attachments/assets/c89047d4-e096-4937-b9a9-4178153dfb8d)
 
 ---
 
