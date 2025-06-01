@@ -22,7 +22,8 @@ This project sets up a **highly available**, **scalable**, and **secure** web ap
 
 > A load-balanced, auto-scaled web infrastructure spread across multiple subnets with centralized storage and secure access.
 
-![Architecture Diagram](./architecture.png)
+![ChatGPT Image May 31, 2025, 10_05_08 PM](https://github.com/user-attachments/assets/36532963-4fb2-4ba4-8bcc-1444ff7391a4)
+
 
 ---
 
