@@ -10,11 +10,7 @@ This project sets up a **highly available**, **scalable**, and **secure** web ap
 - **ALB (Application Load Balancer)** – Distributes traffic across instances
 - **ASG (Auto Scaling Group)** – Automatically scales EC2 instances
 - **EFS (Elastic File System)** – Shared storage for all EC2s
-- **S3 (Static Assets)** – Stores and syncs static web content
-- **ACM (HTTPS)** – SSL certificate for secure traffic
 - **NAT Gateway & IGW** – Internet access for private/public subnets
-- **Bastion Host** – Secure SSH access to private instances
-- **CloudWatch** – Monitoring and log collection
 
 ---
 
@@ -29,11 +25,19 @@ This project sets up a **highly available**, **scalable**, and **secure** web ap
 
 ## 📦 Project Features
 
-- 🚀 Auto Scaling with Launch Template
-- 🔐 Private Subnet EC2s with Bastion Host
-- 🌐 HTTPS-enabled Load Balancer
-- 📂 Nginx content synced from S3 to EFS
-- 📊 CloudWatch monitoring for logs and alarms
+- 🚀 Auto Scaling using Launch Template and ASG (Spot + On-Demand mix)
+- 🌐 Public-facing Application Load Balancer with two Target Groups (Port 80 & 8080)
+- 🧳 Private EC2 Instances behind ALB for serving web content
+- 📂 EFS used as shared storage, mounted on `/var/www/html`
+- 💻 Custom AMI created for EC2 with pre-installed Apache and EFS mount
+- 🔁 High Availability using Multi-AZ Subnets and Load Balancer
+- 📈 Auto Scaling triggers based on CPU utilization (>65%)
+- 🔒 Security Groups tightly configured:
+  - ALB exposes only required ports (80, 8080 from specific IP)
+  - EC2 only allows traffic from ALB SG
+  - EFS only allows NFS from EC2 SG
+- 🧹 Manual clean-up steps documented to avoid billing
+
 
 ---
 
